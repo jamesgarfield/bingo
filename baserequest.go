@@ -1,12 +1,12 @@
-package bingogen
+package bingo
 
-type Request struct {
+type baseRequest struct {
 	Query      string
-	Adult      string
+	Adult      Adult
 	accountKey string
 }
 
-func (r Request) params() map[string]string {
+func (r baseRequest) params() map[string]string {
 	params := map[string]string{
 		"Query": r.Query,
 		"Adult": r.Adult,
@@ -14,6 +14,6 @@ func (r Request) params() map[string]string {
 	return params
 }
 
-func (r Request) AccountKey() string {
+func (r baseRequest) AccountKey() string {
 	return r.accountKey
 }

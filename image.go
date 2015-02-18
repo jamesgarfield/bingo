@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 )
 
-//go:generate goast write impl gen/baserequest.go
+//go:generate goast write impl baserequest.go
 
 type ImageRequest struct {
 	Query      string
-	Adult      string
+	Adult      Adult
 	accountKey string
 }
 
