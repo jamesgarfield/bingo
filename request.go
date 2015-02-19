@@ -7,18 +7,12 @@ import (
 	"net/url"
 )
 
-const URL = "https://api.datamarket.azure.com/Bing/Search/v1/"
-
-var (
-	client *http.Client = &http.Client{}
+const (
+	defaultBaseURL = "https://api.datamarket.azure.com/Bing/Search/v1/"
 )
 
-type Adult string
-
-const (
-	Moderate Adult = "Moderate"
-	Strict         = "Strict"
-	Off            = "Off"
+var (
+	client = http.DefaultClient
 )
 
 type Request interface {
@@ -27,24 +21,9 @@ type Request interface {
 	AccountKey() string
 }
 
-func RequestUrl(r Request) (result string, err error) {
-	searchUrl, err := url.Parse(URL + r.Base())
+func executeRequest(r Request) (result []byte, err error) {
 
-	if err != nil {
-		return
-	}
-	query := searchUrl.Query()
-	for key, value := range r.Params() {
-		query.Add(key, "'"+value+"'")
-	}
-	searchUrl.RawQuery = query.Encode()
-	result = searchUrl.String()
-	return
-}
-
-func ExecuteRequest(r Request) (result string, err error) {
-
-	searchUrl, err := RequestUrl(r)
+	searchUrl, err := requestUrl(r)
 	if err != nil {
 		return
 	}
@@ -58,12 +37,26 @@ func ExecuteRequest(r Request) (result string, err error) {
 		return
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	result, err = ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	if err != nil {
 		return
 	}
 
-	result = string(body)
+	return
+}
+
+func requestUrl(r Request) (result string, err error) {
+	searchUrl, err := url.Parse(defaultBaseURL + r.Base())
+
+	if err != nil {
+		return
+	}
+	query := searchUrl.Query()
+	for key, value := range r.Params() {
+		query.Add(key, "'"+value+"'")
+	}
+	searchUrl.RawQuery = query.Encode()
+	result = searchUrl.String()
 	return
 }

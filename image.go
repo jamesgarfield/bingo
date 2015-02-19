@@ -21,7 +21,7 @@ func (imr ImageRequest) Params() map[string]string {
 }
 
 func (imr ImageRequest) Do() (results []ImageResult, err error) {
-	raw, err := ExecuteRequest(imr)
+	raw, err := executeRequest(imr)
 	if err != nil {
 		return
 	}

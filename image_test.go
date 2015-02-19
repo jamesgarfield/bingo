@@ -1,7 +1,6 @@
 package bingo
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -14,8 +13,7 @@ func Test_ImageRequest(t *testing.T) {
 		t.Error(err)
 	}
 
-	for _, r := range results {
-		fmt.Println(r.Json())
+	if len(results) == 0 {
+		t.Error("No Results")
 	}
-
 }
