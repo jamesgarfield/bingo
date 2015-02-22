@@ -1,13 +1,13 @@
 package bingo
 
 type baseRequest struct {
-	Query      string
-	Adult      Adult
-	accountKey string
+	Query   string
+	Adult   Adult
+	AcctKey string
 }
 
 func (r baseRequest) AccountKey() string {
-	return r.accountKey
+	return r.AcctKey
 }
 
 func (r baseRequest) params() map[string]string {

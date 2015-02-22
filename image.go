@@ -7,9 +7,9 @@ import (
 //go:generate goast write impl baserequest.go
 
 type ImageRequest struct {
-	Query      string
-	Adult      Adult
-	accountKey string
+	Query   string
+	Adult   Adult
+	AcctKey string
 }
 
 func (imr ImageRequest) Base() string {
